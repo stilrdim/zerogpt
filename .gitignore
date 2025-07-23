@@ -2,3 +2,5 @@ node_modules
 test*.ts
 test*.js
 log*.txt
+*.rar
+*.exe

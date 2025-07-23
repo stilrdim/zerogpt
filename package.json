@@ -1,0 +1,26 @@
+{
+  "name": "zerogpt",
+  "version": "1.0.0",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "test": "tsc && node dist/test.js",
+    "electron": "tsc && electron dist/main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "clipboardy": "^4.0.0",
+    "electron": "^37.2.4",
+    "node-global-key-listener": "^0.3.0",
+    "node-notifier": "^10.0.1",
+    "puppeteer": "^24.15.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+    "@types/node-notifier": "^8.0.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

@@ -17,6 +17,14 @@ export const showNotification = (title, message, autoClose) => {
         shell: true,
     }).unref();
 };
+export const imgToBase64Url = (relativeImagePath) => {
+    const imagePath = path.join(__dirname, relativeImagePath);
+    const imageBuffer = fs.readFileSync(imagePath);
+    const base64Image = imageBuffer.toString("base64");
+    const mimeType = "image/png";
+    const base64DataUrl = `data:${mimeType};base64,${base64Image}`;
+    return base64DataUrl;
+};
 export const getPercentage = (msg) => {
     const match = msg.match(/\d+(?:\.\d+)?%/);
     if (!match)

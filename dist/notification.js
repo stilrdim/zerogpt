@@ -1,6 +1,6 @@
 import electron from "electron";
 const { app, BrowserWindow, screen } = electron;
-import { getPercentage } from "./utils.js";
+import { getPercentage, imgToBase64Url } from "./utils.js";
 const [, , title, message, autoCloseArg] = process.argv;
 const autoClose = autoCloseArg === "true";
 const percentage = getPercentage(message);
@@ -12,9 +12,8 @@ const COLORS = {
 function createNotification() {
     const display = screen.getPrimaryDisplay();
     const { width, height } = display.workAreaSize;
-    const winWidth = 250;
+    const winWidth = 200;
     const winHeight = 100;
-    // Position: bottom-right corner with 20px margin
     const x = width - winWidth - 20;
     const y = height - winHeight - 20;
     const win = new BrowserWindow({
@@ -29,42 +28,41 @@ function createNotification() {
         focusable: false,
         resizable: false,
     });
+    // Convert local image path to file URL
+    const imageUrl = imgToBase64Url("/../result.png");
     win.loadURL("data:text/html;charset=utf-8," +
         encodeURIComponent(`
-      <style>
-        ::-webkit-scrollbar { display: none; }
-        body {
-          overflow: hidden;
-          margin: 0;
-          background: ${!autoClose // If it's an autoClose window, set color to default
-            ? percentage < 20
-                ? COLORS.DARK_GREEN
-                : COLORS.DARK_RED
-            : COLORS.DEFAULT};
-          color: white;
-          font-family: sans-serif;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-        }
-        h4 {
-          font-weight: bold;
-        }
-
-      </style>
-      <body onclick="window.close()">
-        <div>
-          <h4>${title}</h4>
-          <p>${message}</p>
-        </div>
-        <script>
-          document.body.addEventListener('click', () => {
-            window.close();
-          });
-        </script>
-      </body>
-    `));
+    <style>
+      ::-webkit-scrollbar { display: none; }
+      body {
+        overflow: hidden;
+        margin: 0;
+        width: 100vw;
+        height: 100vh;
+        ${autoClose
+            ? `background-color: ${COLORS.DEFAULT};`
+            : `background: url('${imageUrl}') no-repeat center center / cover;`}
+        color: white;
+        font-family: sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      h4 {
+        font-weight: bold;
+      }
+    </style>
+    <body onclick="window.close()">
+      <div>
+        ${autoClose ? `<h4>${title}</h4>` : ""}
+        ${autoClose ? `<p>${message}</p>` : ""}
+      </div>
+      <script>
+        document.body.addEventListener('click', () => window.close());
+      </script>
+    </body>
+  `));
     if (autoClose) {
         setTimeout(() => {
             if (!win.isDestroyed())

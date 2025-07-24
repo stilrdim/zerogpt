@@ -43,8 +43,15 @@ export const getAIPercentage = async (
   }
 
   // Write to the textarea
-  console.log("Writing your text...");
-  await page.type("#textArea", textToCheck);
+
+  page.evaluate((text) => {
+    const input = document.querySelector("#textArea") as HTMLTextAreaElement;
+    if (input) {
+      console.log("Pasting your text...");
+      input.value = text;
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+  }, textToCheck);
 
   console.log("Checking score...");
   const scoreButton = await page.$(".scoreButton");

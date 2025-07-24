@@ -18,7 +18,7 @@ function createNotification() {
     // Start off-screen to the right
     const startX = width;
     const endX = width - winWidth - marginForX;
-    const startY = marginForY;
+    const startY = height - winHeight - marginForY;
     let currentX = startX;
     const slideSpeed = 10; // pixels per frame
     const intervalTime = 10; // ms between updates

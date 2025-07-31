@@ -50,6 +50,8 @@ export const getAIPercentage = async (
     if (input) {
       console.log("Pasting your text...");
       input.value = text;
+
+      // Simulate input to ensure we get back the correct state
       input.dispatchEvent(new Event("input", { bubbles: true }));
     }
   }, textToCheck);

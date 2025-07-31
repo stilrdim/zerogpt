@@ -1,6 +1,6 @@
 import electron from "electron";
 const { app, BrowserWindow, screen } = electron;
-import { __dirname, imgToBase64Url } from "./utils.js";
+import { imgToBase64Url } from "./utils.js";
 
 const [, , title, message, autoCloseArg] = process.argv;
 const autoClose = autoCloseArg === "true";

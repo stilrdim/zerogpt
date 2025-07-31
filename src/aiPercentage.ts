@@ -1,6 +1,6 @@
 import puppeteer, { Browser } from "puppeteer";
 import axios from "axios";
-import { __dirname, showNotification } from "./utils.js";
+import { showNotification } from "./utils.js";
 import os from "os";
 import { OurResponse, ZerogptResponse } from "./types/index.js";
 

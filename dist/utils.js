@@ -1,14 +1,9 @@
-import { fileURLToPath } from "url";
 import path from "path";
 import { spawn } from "child_process";
 import * as electron from "electron";
 import fs from "fs";
+import { __dirname } from "./constants.js";
 const electronPath = electron.default || electron;
-export const KEY_TO_PRESS = "F4";
-export const KEY_TO_CLOSE = "NUMPAD DOT";
-export const NEW_SECTION = "\n\n\n\n\n\n\n\n\n\n\n\n";
-const __filename = fileURLToPath(import.meta.url);
-export const __dirname = path.dirname(__filename);
 export const showNotification = (title, message, autoClose) => {
     const notificationScript = path.join(__dirname, "notification.js");
     spawn(electronPath, [notificationScript, `"${title}"`, `"${message}"`, autoClose.toString()], {

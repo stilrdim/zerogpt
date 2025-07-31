@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "tsc && node dist/test.js",
+    "main": "tsc && node dist/main.js",
     "electron": "tsc && electron dist/main.js"
   },
   "author": "",

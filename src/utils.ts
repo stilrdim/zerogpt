@@ -1,19 +1,10 @@
-import { fileURLToPath } from "url";
 import path from "path";
 import { spawn } from "child_process";
-import { IGlobalKey } from "node-global-key-listener";
 import * as electron from "electron";
 import fs from "fs";
+import { __dirname } from "./constants.js";
 
 const electronPath: string = (electron as any).default || electron;
-
-export const KEY_TO_PRESS: IGlobalKey = "F4";
-export const KEY_TO_CLOSE: IGlobalKey = "NUMPAD DOT";
-export const NEW_SECTION = "\n\n\n\n\n\n\n\n\n\n\n\n";
-
-const __filename = fileURLToPath(import.meta.url);
-
-export const __dirname = path.dirname(__filename);
 
 export const showNotification = (
   title: string,

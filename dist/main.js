@@ -1,48 +1,17 @@
-import clipboard from "clipboardy";
 import { GlobalKeyboardListener } from "node-global-key-listener";
-import { getAIPercentage } from "./aiPercentage.js";
-import { logger, showNotification, KEY_TO_CLOSE, KEY_TO_PRESS, NEW_SECTION, } from "./utils.js";
-const USE_HEADLESS_BROWSER = true;
+import { handleAppClose, handleLookupKeyPressed } from "./handleStates.js";
+import { KEY_TO_CLOSE_APP, KEY_TO_LOOKUP_TEXT } from "./constants.js";
 const listener = new GlobalKeyboardListener();
-const safeReadClipboard = async () => {
-    try {
-        const text = await clipboard.read();
-        // Clipboard is empty
-        if (!text) {
-            console.log("Clipboard appears empty");
-            return "NO COPIED TEXT";
-        }
-        return text;
-    }
-    catch (error) {
-        // Assuming clipboard has an image or something??
-        console.error("Failed to read clipboard: ", error);
-        return "NO COPIED TEXT";
-    }
-};
 // Check for pressed keys
 listener.addListener((e) => {
     if (e.state === "DOWN") {
-        switch (e.name) {
-            case KEY_TO_PRESS:
-                safeReadClipboard().then((copiedText) => {
-                    if (copiedText === "NO COPIED TEXT")
-                        return console.log(copiedText);
-                    getAIPercentage(copiedText, KEY_TO_PRESS, USE_HEADLESS_BROWSER)
-                        .then((result) => {
-                        console.log(`\nYour text:\n${copiedText}\n\n`);
-                        console.log(`Your text is ${result} AI!${NEW_SECTION}`);
-                        showNotification("ZeroGPT", `Your text is ${result} AI`, false);
-                    })
-                        .catch((error) => console.error("An error occured while fetching the response: ", error));
-                });
-                logger.log(KEY_TO_PRESS);
+        const pressedKey = e.name;
+        switch (pressedKey) {
+            case KEY_TO_LOOKUP_TEXT:
+                handleLookupKeyPressed();
                 break;
-            case KEY_TO_CLOSE:
-                showNotification("ZeroGPT", `[${KEY_TO_CLOSE}] Shutting down...`, true);
-                console.log(`[${KEY_TO_CLOSE}] Shutting down!`);
-                logger.log(KEY_TO_CLOSE);
-                process.exit(1);
+            case KEY_TO_CLOSE_APP:
+                handleAppClose();
         }
     }
 });

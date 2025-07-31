@@ -1,7 +1,8 @@
-import puppeteer from "puppeteer";
+import puppeteer, { Browser } from "puppeteer";
+import axios from "axios";
 import { __dirname, showNotification } from "./utils.js";
 import os from "os";
-import { Browser } from "puppeteer";
+import { OurResponse, ZerogptResponse } from "./types/index.js";
 
 console.log("Copy your text and press [F4] to check AI %!\n");
 
@@ -87,4 +88,27 @@ export const getAIPercentage = async (
   if (isHeadless) await browser.close();
 
   return match.toString();
+};
+
+export const getAiPercentageThroughAPI = async (
+  input_text: string
+): Promise<OurResponse> => {
+  const { data: res } = await axios.post<ZerogptResponse>(
+    "https://api.zerogpt.com/api/detect/detectText",
+    { input_text },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 OPR/120.0.0.0",
+        Origin: "https://www.zerogpt.com",
+      },
+    }
+  );
+
+  if (!res.success) return { feedback: "Failed contacting the ZeroGPT API" };
+
+  const { fakePercentage, feedback } = res.data;
+
+  return { fakePercentage, feedback };
 };

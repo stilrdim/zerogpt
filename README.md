@@ -33,6 +33,12 @@ export const KEY_TO_CLOSE_APP = "NUMPAD DOT";
 
 ---
 
+## Demo Images
+
+![A demo image displaying the app being used including the screenshot it generates as notification](https://i.ibb.co/kVKgRbFn/zerogpt.png)
+
+---
+
 ## How it works
 
 The app runs three main parts:
@@ -51,13 +57,28 @@ Two modes exist:
 
 - **Puppeteer mode**
   - Opens `ZeroGPT` website
+    > Bypasses "Accept Cookies" popup
   - Pastes text into input field
   - Clicks analyze button
   - Scrapes result percentage
 
 - **API mode**
   - Sends `POST` request directly to `ZeroGPT` endpoint
-  - Returns `fakePercentage` and feedback
+  - Returns `fakePercentage` and `feedback`
+
+---
+
+## Benefits
+
+### 1. One-click analysis from anywhere
+
+Trigger a lookup instantly with a single keypress (`F4` by default) without switching windows or opening a browser tab.
+
+### 2. Fresh results every time
+
+Each **Puppeteer** lookup runs in a completely new browser instance with no cache — so repeated checks on the same text return naturally varied percentages, closer to what an external reviewer would see.
+
+> **Example:** Your local browser might cache a result of `26.58%`, while three fresh lookups on the same text return `25.20%`, `29.81%`, and `21.44%`.
 
 ---
 

@@ -6,10 +6,10 @@ import { __dirname } from "./constants.js";
 const electronPath = electron.default || electron;
 export const showNotification = (title, message, autoClose) => {
     const notificationScript = path.join(__dirname, "notification.js");
-    spawn(electronPath, [notificationScript, `"${title}"`, `"${message}"`, autoClose.toString()], {
+    spawn(electronPath, [notificationScript, title, message, autoClose.toString()], {
         detached: true,
         stdio: "ignore",
-        shell: true,
+        // shell: true,
     }).unref();
 };
 export const imgToBase64Url = (relativeImagePath) => {

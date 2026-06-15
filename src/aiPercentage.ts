@@ -12,7 +12,7 @@ const username = os.userInfo().username.toLowerCase();
 export const getAIPercentage = async (
   textToCheck: string,
   key: string,
-  isHeadless: boolean = true
+  isHeadless: boolean = true,
 ): Promise<string> => {
   showNotification("ZeroGPT", `[${key}] Looking up text...`, true);
 
@@ -76,7 +76,7 @@ export const getAIPercentage = async (
     .then((el) => el?.screenshot({ path: "result.png" }));
   const result = await page.$eval(
     "div.percentage-div>.header-text.text-center",
-    (el) => el.textContent?.replace(/\n/g, " ").trim()
+    (el) => el.textContent?.replace(/\n/g, " ").trim(),
   );
 
   if (!result) {
@@ -96,8 +96,11 @@ export const getAIPercentage = async (
 };
 
 export const getAiPercentageThroughAPI = async (
-  input_text: string
+  input_text: string,
+  key: string,
 ): Promise<OurResponse> => {
+  showNotification("ZeroGPT", `[${key}] Looking up text...`, true);
+
   const { data: res } = await axios.post<ZerogptResponse>(
     "https://api.zerogpt.com/api/detect/detectText",
     { input_text },
@@ -108,7 +111,7 @@ export const getAiPercentageThroughAPI = async (
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 OPR/120.0.0.0",
         Origin: "https://www.zerogpt.com",
       },
-    }
+    },
   );
 
   if (!res.success) return { feedback: "Failed contacting the ZeroGPT API" };

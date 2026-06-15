@@ -20,7 +20,7 @@ export const getAIPercentage = async (textToCheck, key, isHeadless = true) => {
     console.log("Heading to ZEROGPT.COM...");
     await page.goto("https://zerogpt.com/");
     // Wait for the iframe to appear and get its frame
-    // id="sp_message_iframe_1366862" title="SP Consent Message"></iframe>
+    // Example popup iframe:      id="sp_message_iframe_1366862" title="SP Consent Message"></iframe>
     await page.waitForSelector('[title="SP Consent Message"]', {
         timeout: 10000,
     });
@@ -75,7 +75,8 @@ export const getAIPercentage = async (textToCheck, key, isHeadless = true) => {
         await browser.close();
     return match.toString();
 };
-export const getAiPercentageThroughAPI = async (input_text) => {
+export const getAiPercentageThroughAPI = async (input_text, key) => {
+    showNotification("ZeroGPT", `[${key}] Looking up text...`, true);
     const { data: res } = await axios.post("https://api.zerogpt.com/api/detect/detectText", { input_text }, {
         headers: {
             "Content-Type": "application/json",

@@ -9,18 +9,18 @@ const electronPath: string = (electron as any).default || electron;
 export const showNotification = (
   title: string,
   message: string,
-  autoClose: boolean
+  autoClose: boolean,
 ) => {
   const notificationScript = path.join(__dirname, "notification.js");
 
   spawn(
     electronPath,
-    [notificationScript, `"${title}"`, `"${message}"`, autoClose.toString()],
+    [notificationScript, title, message, autoClose.toString()],
     {
       detached: true,
       stdio: "ignore",
-      shell: true,
-    }
+      // shell: true,
+    },
   ).unref();
 };
 
